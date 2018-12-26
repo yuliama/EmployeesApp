@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en-us" ng-app="angularApp">
+
+<head>
+  <title>קליטת עובדים</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-rtl/dist/css/bootstrap-rtl.min.css" />
+
+  <link rel="stylesheet" href="bower_components/angular/angular-csp.css" />
+  <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
+  <!-- <link rel="stylesheet" href="bower_components/font-awesome/web-fonts-with-css/css/fontawesome.min.css" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="main.css">
+  </script>
+
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script src="app.js"></script>
+  <script src="services/employee.service.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div ng-controller="employeeListController">
+      <div class="employeesList" ng-if="selectedEmployee==null">
+        <h2>חיפוש עובדים</h2>
+        <div class="input-group mb-3 serchEmployees">
+          <input type="text" class="form-control" placeholder="הקלד לחיפוש עובד" aria-label="searchEmployee" aria-describedby="basic-addon1"
+            ng-model="searchText" />
+        </div>
+        <div class="card-group">
+          <div ng-repeat="employee in employees | filter : searchText" ng-model-options="{ debounce: 500 }">
+            <div class="card" ng-click="select()">
+              <div class="card-header">
+                <a href="#" class="card-link">{{ employee.firstName }} {{ employee.lastName }}</a>
+              </div>
+              <img class="card-img-top" src="{{employee.image}}" alt="Card image cap">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">מספר עובד: {{ employee.id }}</li>
+                <li class="list-group-item">אימייל: {{ employee.email }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card" ng-click="addNewEmployee()">
+            <div class="card-body">
+              <div class="plusIcon">
+                <i class="fa fa-plus" style="font-size:85px"></i>
+              </div>
+              <div class="card-text addNewEmployee">הוספת עובד חדש</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="selectedEmployee!=null" class="employee">
+        <div class="alert alert-success" ng-show="saveSuceeded">
+          <strong>שמירה התבצעה בהצלחה!</strong>
+        </div>
+        <div class="alert alert-danger" ng-show="SaveError">
+          <strong>כל השדות הם שדות חובה!</strong>
+        </div>
+        <h2>{{saveEmployeeActionTxt}} עובד</h2>
+
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">רישום/עריכת עובד</a>
+          </li>
+          <!--<li class="nav-item">
+            <a class="nav-link" href="#">עריכת ציוד</a>
+          </li>-->
+        </ul>
+
+
+
+        <div>
+        <form name="createEmployeeForm" ng-submit="submitForm(createEmployeeForm.$valid)" novalidate>
+          <div>
+            <label for="employeeId">ת.ז.:
+            </label>
+            <div>
+              <input type="text" ID="employeeId" ng-model="selectedEmployee.id" ng-readonly="isReadOnly" required></input>
+            </div>
+          </div>
+          <div>
+            <label for="employeeName">שם פרטי:
+            </label>
+            <div>
+              <input type="text" ID="employeeName" ng-model="selectedEmployee.firstName" ng-readonly="isReadOnly" required></input>
+            </div>
+          </div>
+          <div>
+            <label for="employeeLastName">שם משפחה:
+            </label>
+            <div>
+              <input type="text" ID="employeeLastName" ng-model="selectedEmployee.lastName" ng-readonly="isReadOnly" required></input>
+            </div>
+          </div>
+          <div>
+            <label for="employeeEmail">אימייל:
+            </label>
+            <div>
+              <input type="text" ID="employeeEmail" ng-model="selectedEmployee.email" ng-readonly="isReadOnly" required></input>
+            </div>
+          </div>
+          <div ng-hide="isNewEmployee">
+            <label for="employeeImage">תמונה:
+            </label>
+            <img src="{{selectedEmployee.image}}" />
+          </div>
+          <div ng-show="isNewEmployee">
+            <label for="employeeEmail">כתובת תמונה:
+            </label>
+            <div>
+              <input type="text" ID="employeeImageTxt" ng-model="selectedEmployee.image" ng-readonly="isReadOnly" required></input>
+            </div>
+          </div>
+          <button class="btn btn-default" type="submit" ng-hide="isReadOnly">שמירה</button>
+          <button class="btn btn-default" ng-click="update()" ng-show="isReadOnly">עריכה</button>
+          <button class="btn btn-default" ng-click="cancel()">ביטול</button>
+        </form>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>

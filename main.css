@@ -1,0 +1,55 @@
+.card-img-top {
+    width: 100%;
+    height: 10vw;
+    object-fit: cover;
+}
+
+.serchEmployees {
+    margin-top: 50px;
+}
+
+.employeesList {
+    margin-top: 50px;
+    text-align: right;
+}
+
+.card {
+    text-align: right;
+    cursor: pointer;
+}
+
+.employee
+{
+    float: right;
+    text-align: right;
+    margin-top: 50px;
+}
+
+.employee button
+{
+    margin: 20px 0px;
+}
+
+.employee input[type="text"]
+{
+    width: 265px;
+}
+
+.employee label{
+    display: block;
+}
+
+.card
+{
+    width: 286px; margin-left: 5px;
+}
+
+.plusIcon
+{
+    padding: 87px 60px 0;
+}
+
+.addNewEmployee
+{
+    margin: 31px;
+}
